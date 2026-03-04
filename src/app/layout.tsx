@@ -20,10 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-background-primary min-h-screen text-white antialiased`}>
-        <SkywarnStatus />
-        <Navbar />
-        <main className="min-h-screen pt-20">
+      <body className={`${inter.className} bg-background-primary min-h-screen text-white antialiased flex flex-col`}>
+        <div className="sticky top-0 z-[50] flex flex-col">
+          <SkywarnStatus />
+          <Navbar />
+        </div>
+        <main className="flex-grow">
           {children}
         </main>
         <Footer />
