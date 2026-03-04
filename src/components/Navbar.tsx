@@ -11,11 +11,6 @@ const navItems = [
     name: "Our Current System",
     href: "/system",
     icon: Radio,
-    subItems: [
-      { name: "All Repeaters", href: "/system" },
-      { name: "WQPV948", href: "/system/wqpv948" },
-      { name: "Coverage", href: "/system/coverage" },
-    ]
   },
   { name: "Our History", href: "/history", icon: History },
   { name: "Skywarn", href: "/skywarn", icon: CloudLightning },
