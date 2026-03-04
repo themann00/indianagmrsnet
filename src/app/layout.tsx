@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+import SkywarnStatus from "@/components/SkywarnStatus";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,7 +20,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased selection:bg-accent-primary/30`}>
+      <body className={`${inter.className} bg-background-primary min-h-screen text-white antialiased`}>
+        <SkywarnStatus />
         <Navbar />
         <main className="min-h-screen pt-20">
           {children}

@@ -15,15 +15,39 @@ import {
     Plus
 } from "lucide-react";
 import { GMRSEvent, EventCategory } from "@/types/event";
-import initialEvents from "@/data/events.json";
+import { fetchSheetData } from "@/lib/googleSheets";
+import { useEffect } from "react";
 
 type ViewMode = "grid" | "list" | "month";
 
 export default function EventsView() {
-    const [events] = useState<GMRSEvent[]>(initialEvents as GMRSEvent[]);
+    const [events, setEvents] = useState<GMRSEvent[]>([]);
+    const [loading, setLoading] = useState(true);
     const [viewMode, setViewMode] = useState<ViewMode>("grid");
     const [search, setSearch] = useState("");
     const [categoryFilter, setCategoryFilter] = useState<EventCategory | "All">("All");
+
+    useEffect(() => {
+        async function loadEvents() {
+            const sheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID;
+            if (!sheetId) return;
+
+            setLoading(true);
+            const data = await fetchSheetData(sheetId, "Events");
+            // Map Google Sheet columns to GMRSEvent interface if they differ
+            const mappedEvents = data.map((item: any) => ({
+                id: item.id?.toString() || Math.random().toString(),
+                title: item.title || "Untitled Event",
+                category: (item.category as EventCategory) || "Other",
+                date: item.date || new Date().toISOString(),
+                location: item.location || "TBD",
+                description: item.description || ""
+            }));
+            setEvents(mappedEvents);
+            setLoading(false);
+        }
+        loadEvents();
+    }, []);
 
     const filteredEvents = useMemo(() => {
         return events.filter(event => {
@@ -78,8 +102,8 @@ export default function EventsView() {
                             key={cat}
                             onClick={() => setCategoryFilter(cat as any)}
                             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${categoryFilter === cat
-                                    ? "bg-accent-primary text-background-primary"
-                                    : "glass text-text-secondary hover:text-white"
+                                ? "bg-accent-primary text-background-primary"
+                                : "glass text-text-secondary hover:text-white"
                                 }`}
                         >
                             {cat}
@@ -90,7 +114,13 @@ export default function EventsView() {
 
             {/* Grid View */}
             <AnimatePresence mode="wait">
-                {viewMode === "grid" ? (
+                {loading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="glass-card h-64 animate-pulse" />
+                        ))}
+                    </div>
+                ) : viewMode === "grid" ? (
                     <motion.div
                         key="grid"
                         initial={{ opacity: 0, y: 20 }}

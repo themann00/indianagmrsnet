@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Shield, Radio, Users, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import LatestUpdates from "@/components/LatestUpdates";
 
 export default function Home() {
   return (
@@ -41,7 +42,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Mission Features */}
+      <LatestUpdates />
+
+      {/* Mission Section */}
       <section className="py-24 sm:py-32 relative">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center mb-16">
