@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchSheetData } from "@/lib/googleSheets";
 import { AlertCircle, CheckCircle2, AlertTriangle, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getReportAgeInHours } from "@/lib/dateUtils";
 
 export default function SkywarnStatus() {
     const [status, setStatus] = useState<any>(null);
@@ -27,13 +28,19 @@ export default function SkywarnStatus() {
 
     if (loading || !status) return null;
 
-    const getStatusConfig = (s: string) => {
+    const age = getReportAgeInHours(status.lastUpdated);
+
+    const getStatusConfig = (s: string, age: number) => {
         const lowerStatus = s?.toLowerCase();
+
         if (lowerStatus === "active") {
+            const isStale = age > 4;
             return {
-                color: "bg-red-900 border-red-700 text-white shadow-[0_0_20px_rgba(185,28,28,0.3)]",
+                color: isStale
+                    ? "bg-amber-600 border-amber-500 text-white shadow-[0_0_20px_rgba(245,158,11,0.3)]"
+                    : "bg-red-900 border-red-700 text-white shadow-[0_0_20px_rgba(185,28,28,0.3)]",
                 icon: AlertCircle,
-                label: "ACTIVE",
+                label: isStale ? `ACTIVE (STALE: ${Math.floor(age)} hours old)` : "ACTIVE",
                 animate: true
             };
         }
@@ -64,7 +71,7 @@ export default function SkywarnStatus() {
         }
     };
 
-    const config = getStatusConfig(status.status);
+    const config = getStatusConfig(status.status, age);
     const Icon = config.icon;
 
     return (

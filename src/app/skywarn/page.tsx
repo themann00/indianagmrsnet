@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchSheetData } from "@/lib/googleSheets";
 import { motion } from "framer-motion";
 import { CloudLightning, AlertTriangle, Radio, Shield, ExternalLink, Clock } from "lucide-react";
+import { getReportAgeInHours, formatDateOnly } from "@/lib/dateUtils";
 
 export default function SkywarnPage() {
     const [status, setStatus] = useState<any>(null);
@@ -28,11 +29,8 @@ export default function SkywarnPage() {
         loadStatus();
     }, []);
 
-    const formatStatusDate = (dateStr: string) => {
-        if (!dateStr) return "N/A";
-        if (dateStr.toUpperCase() === "LIVE") return "LIVE NOW!";
-        return dateStr; // The fetchSheetData utility already handles Google Date parsing to a nice string if applicable
-    };
+    const age = getReportAgeInHours(status?.lastUpdated);
+    const isStale = status?.status?.toLowerCase() === 'active' && age > 4;
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
@@ -40,17 +38,24 @@ export default function SkywarnPage() {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`mb-16 p-8 rounded-3xl border-2 transition-all duration-500 overflow-hidden relative ${status?.status?.toLowerCase() === 'active'
-                    ? 'bg-red-950/40 border-red-500 shadow-[0_0_40px_rgba(239,68,68,0.2)]'
-                    : 'bg-white/[0.02] border-white/10'
+                className={`mb-16 p-8 rounded-3xl border-2 transition-all duration-500 overflow-hidden relative ${isStale
+                    ? 'bg-amber-950/20 border-amber-500/50 shadow-[0_0_40px_rgba(245,158,11,0.1)]'
+                    : status?.status?.toLowerCase() === 'active'
+                        ? 'bg-red-950/40 border-red-500 shadow-[0_0_40px_rgba(239,68,68,0.2)]'
+                        : 'bg-white/[0.02] border-white/10'
                     }`}
             >
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 relative z-10">
                     <div>
                         <div className="flex items-center space-x-3 text-sm font-bold tracking-widest uppercase mb-4">
-                            <div className={`w-2 h-2 rounded-full ${status?.status?.toLowerCase() === 'active' ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'}`} />
-                            <span className={status?.status?.toLowerCase() === 'active' ? 'text-red-400' : 'text-emerald-400'}>
-                                Current Protocol: {status?.status || (loading ? 'Loading...' : 'Normal')}
+                            <div className={`w-2 h-2 rounded-full ${isStale ? 'bg-amber-500 animate-pulse' :
+                                status?.status?.toLowerCase() === 'active' ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'
+                                }`} />
+                            <span className={
+                                isStale ? 'text-amber-400' :
+                                    status?.status?.toLowerCase() === 'active' ? 'text-red-400' : 'text-emerald-400'
+                            }>
+                                Current Protocol: {isStale ? `Active (Stale: ${Math.floor(age)} hours old)` : (status?.status || (loading ? 'Loading...' : 'Normal'))}
                             </span>
                         </div>
                         <h2 className="text-3xl font-bold text-white mb-2">Live Network Status</h2>
@@ -58,8 +63,8 @@ export default function SkywarnPage() {
                     </div>
                     <div className="glass px-8 py-6 rounded-2xl flex flex-col items-center justify-center min-w-[200px] border-white/5">
                         <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-text-secondary mb-2">Last Update</span>
-                        <div className={`text-xl font-bold ${status?.lastUpdated === 'LIVE' ? 'text-red-500 animate-pulse' : 'text-white'}`}>
-                            {formatStatusDate(status?.lastUpdated)}
+                        <div className={`text-xl font-bold ${status?.lastUpdated?.toUpperCase() === 'LIVE' ? 'text-red-500 animate-pulse' : 'text-white'}`}>
+                            {status?.lastUpdated?.toUpperCase() === 'LIVE' ? 'LIVE NOW!' : formatDateOnly(status?.lastUpdated)}
                         </div>
                     </div>
                 </div>
@@ -67,7 +72,7 @@ export default function SkywarnPage() {
                     <motion.div
                         animate={{ opacity: [0.1, 0.2, 0.1] }}
                         transition={{ duration: 2, repeat: Infinity }}
-                        className="absolute inset-0 bg-red-500/5 pointer-events-none"
+                        className={`absolute inset-0 pointer-events-none ${isStale ? 'bg-amber-500/5' : 'bg-red-500/5'}`}
                     />
                 )}
             </motion.div>
