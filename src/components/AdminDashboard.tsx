@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 export default function AdminDashboard() {
     const [events, setEvents] = useState<GMRSEvent[]>([]);
     const [isAdding, setIsAdding] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [password, setPassword] = useState("");
     const [newEvent, setNewEvent] = useState<Partial<GMRSEvent>>({
         title: "",
         category: "Meeting",
@@ -17,28 +19,84 @@ export default function AdminDashboard() {
     });
 
     useEffect(() => {
-        fetchEvents();
+        const saved = sessionStorage.getItem("admin_secret");
+        if (saved) {
+            setIsAuthenticated(true);
+            fetchEvents(saved);
+        }
     }, []);
 
-    const fetchEvents = async () => {
+    const fetchEvents = async (secret?: string) => {
         const res = await fetch("/api/events");
         const data = await res.json();
         setEvents(data);
+        if (secret) setIsAuthenticated(true);
+    };
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        sessionStorage.setItem("admin_secret", password);
+        setIsAuthenticated(true);
+        fetchEvents();
     };
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
+        const secret = sessionStorage.getItem("admin_secret");
         const res = await fetch("/api/events", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${secret}`
+            },
             body: JSON.stringify(newEvent),
         });
+
         if (res.ok) {
             setIsAdding(false);
             setNewEvent({ title: "", category: "Meeting", date: "", location: "", description: "" });
             fetchEvents();
+        } else if (res.status === 401) {
+            alert("Unauthorized: Incorrect secret.");
+            setIsAuthenticated(false);
+            sessionStorage.removeItem("admin_secret");
         }
     };
+
+    if (!isAuthenticated) {
+        return (
+            <div className="max-w-md mx-auto px-4 py-32">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="glass-card p-8 text-center"
+                >
+                    <div className="flex justify-center mb-6">
+                        <div className="p-4 bg-accent-primary/10 rounded-full">
+                            <Plus className="w-8 h-8 text-accent-primary rotate-45" />
+                        </div>
+                    </div>
+                    <h1 className="text-2xl font-bold text-white mb-2">Admin Access</h1>
+                    <p className="text-text-secondary mb-8">Please enter the security secret to continue.</p>
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <input
+                            type="password"
+                            placeholder="Admin Secret"
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-primary/50"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button
+                            type="submit"
+                            className="w-full py-3 bg-accent-primary text-background-primary rounded-xl font-bold hover:scale-105 transition-transform"
+                        >
+                            Unlock Dashboard
+                        </button>
+                    </form>
+                </motion.div>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">

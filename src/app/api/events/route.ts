@@ -25,6 +25,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
+        // Basic Security Check
+        const authHeader = request.headers.get("Authorization");
+        const secret = authHeader?.replace("Bearer ", "");
+
+        if (process.env.ADMIN_SECRET && secret !== process.env.ADMIN_SECRET) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
         const newEvent: GMRSEvent = await request.json();
         const events = getEvents();
 
