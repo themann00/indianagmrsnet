@@ -39,7 +39,7 @@ export default function HistoryPage() {
                 <p className="text-text-secondary text-lg">Over 20 years of connecting the Indiana community.</p>
             </div>
 
-            <div className="relative border-l border-white/10 ml-4 md:ml-0 md:left-1/2 md:border-l-0">
+            <div className="relative border-l border-white/10 ml-6 md:ml-0 md:border-l-0">
                 {/* Central Line for Desktop */}
                 <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-1/2" />
 
