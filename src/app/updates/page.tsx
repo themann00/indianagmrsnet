@@ -65,8 +65,8 @@ export default function UpdatesPage() {
                                     {update.content}
                                 </p>
 
-                                <div className="mt-auto pt-6 border-t border-white/5">
-                                    {update.readMoreURL && update.readMoreURL.startsWith('http') ? (
+                                {update.readMoreURL && update.readMoreURL.startsWith('http') && (
+                                    <div className="mt-auto pt-6 border-t border-white/5">
                                         <Link
                                             href={update.readMoreURL}
                                             target="_blank"
@@ -76,10 +76,8 @@ export default function UpdatesPage() {
                                             Read Full Story
                                             <ChevronRight className="w-4 h-4 ml-1 group-hover/link:translate-x-1 transition-transform" />
                                         </Link>
-                                    ) : (
-                                        <span className="text-xs text-text-secondary italic">No additional links</span>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
                         </motion.div>
                     ))}
