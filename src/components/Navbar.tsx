@@ -5,7 +5,14 @@ import { useState } from "react";
 import { Menu, X, Radio, History, CloudLightning, Sun, Calendar, Info, ChevronDown, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const navItems = [
+interface NavItem {
+  name: string;
+  href: string;
+  icon: any;
+  subItems?: { name: string; href: string }[];
+}
+
+const navItems: NavItem[] = [
   { name: "About", href: "/", icon: Info },
   {
     name: "Our Current System",
