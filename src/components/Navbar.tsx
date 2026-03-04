@@ -14,7 +14,7 @@ const navItems = [
     subItems: [
       { name: "All Repeaters", href: "/system" },
       { name: "WQPV948", href: "/system/wqpv948" },
-      { name: "Circle City React", href: "/system/circle-city-react" },
+      { name: "Coverage", href: "/system/coverage" },
     ]
   },
   { name: "Our History", href: "/history", icon: History },

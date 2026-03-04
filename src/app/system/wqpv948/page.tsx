@@ -6,12 +6,12 @@ export default function WQPV948Page() {
             <div className="glass-card p-8 lg:p-12">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
                     <div>
-                        <h2 className="text-3xl font-bold text-white mb-2">WQPV948 Repeater</h2>
-                        <p className="text-accent-primary font-mono">462.550 MHz / 77.0 PL</p>
+                        <h2 className="text-3xl font-bold text-white mb-2">WQPV948</h2>
+                        <p className="text-accent-primary font-mono text-lg">Downtown Indianapolis</p>
                     </div>
                     <div className="px-4 py-2 glass rounded-lg flex items-center space-x-2">
                         <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                        <span className="text-white font-medium">Active & Monitored</span>
+                        <span className="text-white font-medium">462.550 MHz / 77.0 PL</span>
                     </div>
                 </div>
 
@@ -22,7 +22,7 @@ export default function WQPV948Page() {
                             Overview
                         </h3>
                         <p className="text-text-secondary leading-relaxed">
-                            Located in Zionsville, Indiana, WQPV948 is our primary wide-area repeater. It provides excellent coverage for Northwest Indianapolis, Carmel, and Lebanon. Formerly known as the "ICE 550" repeater, it has served the community for over 20 years.
+                            Located in downtown Indianapolis, WQPV948 is the largest central Indiana wide-area GMRS repeater. It provides excellent coverage for all of Indianapolis, Carmel, Lebanon, Noblesville, Greenwood, Greenfield, Franklin, Martinsville, Avon, and McCordsville. Formerly known as the "ICE 550" repeater, it has served the community for over 20 years.
                         </p>
                     </section>
 

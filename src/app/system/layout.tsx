@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 const tabs = [
     { name: "Overview", href: "/system" },
     { name: "WQPV948", href: "/system/wqpv948" },
-    { name: "Circle City React", href: "/system/circle-city-react" },
+    { name: "Coverage", href: "/system/coverage" },
 ];
 
 export default function SystemLayout({
