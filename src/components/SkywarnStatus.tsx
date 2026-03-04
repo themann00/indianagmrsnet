@@ -79,10 +79,12 @@ export default function SkywarnStatus() {
             </div>
             <span className="hidden md:inline opacity-30">|</span>
             <p className="hidden md:block truncate max-w-2xl">{status.description || "No active weather threats."}</p>
-            <div className="flex items-center text-xs opacity-60 ml-auto md:ml-0 whitespace-nowrap">
-                <Clock className="w-3 h-3 mr-1" />
-                {status.lastUpdated === "LIVE" ? "LIVE NOW!" : status.lastUpdated || "Monitoring"}
-            </div>
+            {config.label !== "NORMAL" && (
+                <div className="flex items-center text-xs opacity-60 ml-auto md:ml-0 whitespace-nowrap">
+                    <Clock className="w-3 h-3 mr-1" />
+                    {status.lastUpdated === "LIVE" ? "LIVE NOW!" : status.lastUpdated || "Monitoring"}
+                </div>
+            )}
         </motion.div>
     );
 }
