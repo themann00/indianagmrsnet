@@ -1,9 +1,9 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { fetchSheetData } from "@/lib/googleSheets";
 import { motion } from "framer-motion";
 import { CloudLightning, AlertTriangle, Radio, Shield, ExternalLink, Clock } from "lucide-react";
-import { useState, useEffect } from "react";
-import { fetchSheetData } from "../utils/fetchSheetData"; // Assuming this utility exists
 
 export default function SkywarnPage() {
     const [status, setStatus] = useState<any>(null);

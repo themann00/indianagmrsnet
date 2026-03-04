@@ -4,20 +4,6 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Sun, Cloud, CloudRain, Wind, Thermometer, MapPin } from "lucide-react";
 
-// Mock Weather Data (In a real app, this would fetch from NWS or OpenWeatherMap)
-const MOCK_WEATHER = {
-    city: "Indianapolis",
-    temp: 42,
-    condition: "Cloudy",
-    humidity: "68%",
-    wind: "12 mph NW",
-    forecast: [
-        { day: "Today", temp: 45, icon: Cloud },
-        { day: "Thu", temp: 48, icon: Sun },
-        { day: "Fri", temp: 38, icon: CloudRain },
-        { day: "Sat", temp: 35, icon: Wind },
-    ],
-};
 
 export default function WeatherPage() {
     const [current, setCurrent] = useState<any>(null);
