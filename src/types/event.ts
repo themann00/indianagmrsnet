@@ -6,6 +6,10 @@ export interface GMRSEvent {
     category: EventCategory;
     date: string;
     location: string;
+    street?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
     description: string;
     isFeatured?: boolean;
 }

@@ -55,9 +55,22 @@ export default function LatestUpdates() {
                             <p className="text-text-secondary text-sm leading-relaxed mb-6">
                                 {update.content}
                             </p>
-                            <span className="text-xs text-text-secondary font-medium">
-                                {update.date}
-                            </span>
+                            <div className="flex items-center justify-between mt-auto">
+                                <span className="text-xs text-text-secondary font-medium">
+                                    {update.date}
+                                </span>
+                                {update.readMoreURL && update.readMoreURL.startsWith('http') && (
+                                    <Link
+                                        href={update.readMoreURL}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center text-xs font-bold text-accent-primary hover:underline group/link"
+                                    >
+                                        Read More
+                                        <ChevronRight className="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform" />
+                                    </Link>
+                                )}
+                            </div>
                         </motion.div>
                     ))}
                 </div>

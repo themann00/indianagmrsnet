@@ -21,7 +21,7 @@ const navItems = [
   { name: "Skywarn", href: "/skywarn", icon: CloudLightning },
   { name: "Local Weather", href: "/weather", icon: Sun },
   { name: "Events", href: "/events", icon: Calendar },
-  { name: "Blog", href: "/blog", icon: MessageSquare },
+  { name: "Updates", href: "/updates", icon: MessageSquare },
 ];
 
 export default function Navbar() {

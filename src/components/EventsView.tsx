@@ -41,6 +41,10 @@ export default function EventsView() {
                 category: (item.category as EventCategory) || "Other",
                 date: item.date || new Date().toISOString(),
                 location: item.location || "TBD",
+                street: item.street || "",
+                city: item.city || "",
+                state: item.state || "",
+                zip: item.zip || "",
                 description: item.description || ""
             }));
             setEvents(mappedEvents);
@@ -171,9 +175,19 @@ function EventCard({ event }: { event: GMRSEvent }) {
                     <CalendarIcon className="w-3.5 h-3.5 mr-2 text-accent-primary" />
                     {dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
-                <div className="flex items-center text-xs text-text-secondary">
-                    <MapPin className="w-3.5 h-3.5 mr-2 text-accent-primary" />
-                    {event.location}
+                <div className="flex items-start text-xs text-text-secondary">
+                    <MapPin className="w-3.5 h-3.5 mr-2 text-accent-primary mt-0.5" />
+                    <div>
+                        <div className="font-medium text-white/90">{event.location}</div>
+                        {(event.street || event.city || event.state || event.zip) && (
+                            <div className="mt-0.5 opacity-70">
+                                {event.street && <div>{event.street}</div>}
+                                {(event.city || event.state || event.zip) && (
+                                    <div>{event.city}{event.state ? `, ${event.state}` : ''} {event.zip}</div>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
@@ -198,7 +212,18 @@ function EventListItem({ event }: { event: GMRSEvent }) {
                     </div>
                     <div className="flex items-center text-sm text-text-secondary gap-4">
                         <span className="flex items-center"><CalendarIcon className="w-3.5 h-3.5 mr-1.5 text-accent-primary" /> {dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                        <span className="flex items-center"><MapPin className="w-3.5 h-3.5 mr-1.5 text-accent-primary" /> {event.location}</span>
+                        <span className="flex items-start">
+                            <MapPin className="w-3.5 h-3.5 mr-1.5 text-accent-primary mt-0.5" />
+                            <div>
+                                <div className="font-medium text-white/90">{event.location}</div>
+                                {(event.street || event.city || event.state || event.zip) && (
+                                    <div className="text-[11px] opacity-60">
+                                        {event.street && <span>{event.street}, </span>}
+                                        {event.city}{event.state ? `, ${event.state}` : ''} {event.zip}
+                                    </div>
+                                )}
+                            </div>
+                        </span>
                     </div>
                 </div>
             </div>
