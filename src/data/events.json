@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "title": "Hamfest 2026",
+    "category": "Hamfest",
+    "date": "2026-05-15T08:00:00",
+    "location": "Boone County Fairgrounds",
+    "description": "The annual gathering for radio enthusiasts. Swap meet, testing, and more.",
+    "isFeatured": true
+  },
+  {
+    "id": "2",
+    "title": "Monthly Club Meeting",
+    "category": "Meeting",
+    "date": "2026-04-10T19:00:00",
+    "location": "Zionsville Community Center",
+    "description": "Monthly update on network status and community planning.",
+    "isFeatured": false
+  },
+  {
+    "id": "3",
+    "title": "Severe Weather Training",
+    "category": "Training",
+    "date": "2026-04-22T18:30:00",
+    "location": "Online (Zoom)",
+    "description": "Skywarn spotter training session in partnership with the NWS.",
+    "isFeatured": true
+  }
+]
