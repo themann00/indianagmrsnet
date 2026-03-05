@@ -2,12 +2,11 @@ function parseGoogleValue(value: any) {
     if (typeof value === 'string' && value.startsWith('Date(')) {
         const parts = value.match(/\d+/g);
         if (parts) {
-            const [y, m, d] = parts.map(Number);
-            return new Date(y, m, d).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric'
-            });
+            const [y, m, d, h = 0, min = 0, s = 0] = parts.map(Number);
+            // Google month is 0-indexed, but Date(y,m,d) constructor also expects 0-indexed.
+            // However, we want to return a string that's easy to parse and shows the time.
+            // Format: "M/D/YYYY H:mm:ss"
+            return `${m + 1}/${d}/${y} ${h}:${String(min).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
         }
     }
     return value;

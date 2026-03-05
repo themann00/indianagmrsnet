@@ -7,11 +7,13 @@ export function getReportAgeInHours(dateStr: string): number {
     if (!dateStr || dateStr.toUpperCase() === 'LIVE') return 0;
 
     try {
-        // Expected format: "3/4/2026 18:36:00"
-        const reportDate = new Date(dateStr);
+        // Force interpretation as EST/EDT (-0500) as per user requirement
+        // The format from googleSheets is "M/D/YYYY H:mm:ss"
+        const reportDate = new Date(`${dateStr} GMT-0500`);
+
         if (isNaN(reportDate.getTime())) return 0;
 
-        // Get current time
+        // Get current UTC time to compare
         const now = new Date();
 
         // Calculate difference in milliseconds
@@ -30,12 +32,14 @@ export function formatDateOnly(dateStr: string): string {
     if (dateStr.toUpperCase() === 'LIVE') return "LIVE";
 
     try {
-        // If it's a full date string, strip the time
-        // Matches "3/4/2026 18:36:00" -> "3/4/2026"
-        const dateMatch = dateStr.match(/^\d{1,2}\/\d{1,2}\/\d{4}/);
-        if (dateMatch) return dateMatch[0];
+        // Handle "M/D/YYYY H:mm:ss" format by taking just the date part
+        const parts = dateStr.split(' ');
+        if (parts.length > 0) {
+            const datePart = parts[0];
+            // Validate it's a date-like string
+            if (datePart.includes('/')) return datePart;
+        }
 
-        // Fallback to standard JS parsing if it's not a simple string
         const date = new Date(dateStr);
         if (isNaN(date.getTime())) return dateStr;
 

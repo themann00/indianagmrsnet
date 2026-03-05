@@ -171,10 +171,12 @@ function EventCard({ event }: { event: GMRSEvent }) {
             <p className="text-text-secondary text-sm line-clamp-2 mb-6 flex-grow">{event.description}</p>
 
             <div className="space-y-3 pt-6 border-t border-white/5">
-                <div className="flex items-center text-xs text-text-secondary">
-                    <CalendarIcon className="w-3.5 h-3.5 mr-2 text-accent-primary" />
-                    {dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </div>
+                {(dateObj.getHours() !== 0 || dateObj.getMinutes() !== 0) && (
+                    <div className="flex items-center text-xs text-text-secondary">
+                        <CalendarIcon className="w-3.5 h-3.5 mr-2 text-accent-primary" />
+                        {dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                )}
                 <div className="flex items-start text-xs text-text-secondary">
                     <MapPin className="w-3.5 h-3.5 mr-2 text-accent-primary mt-0.5" />
                     <div>
@@ -211,7 +213,9 @@ function EventListItem({ event }: { event: GMRSEvent }) {
                         </span>
                     </div>
                     <div className="flex items-center text-sm text-text-secondary gap-4">
-                        <span className="flex items-center"><CalendarIcon className="w-3.5 h-3.5 mr-1.5 text-accent-primary" /> {dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        {(dateObj.getHours() !== 0 || dateObj.getMinutes() !== 0) && (
+                            <span className="flex items-center"><CalendarIcon className="w-3.5 h-3.5 mr-1.5 text-accent-primary" /> {dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        )}
                         <span className="flex items-start">
                             <MapPin className="w-3.5 h-3.5 mr-1.5 text-accent-primary mt-0.5" />
                             <div>

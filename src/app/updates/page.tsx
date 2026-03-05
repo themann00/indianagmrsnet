@@ -5,6 +5,7 @@ import { fetchSheetData } from "@/lib/googleSheets";
 import { motion } from "framer-motion";
 import { Bell, Calendar, ChevronRight, Clock, Tag } from "lucide-react";
 import Link from "next/link";
+import { formatDateOnly } from "@/lib/dateUtils";
 
 export default function UpdatesPage() {
     const [updates, setUpdates] = useState<any[]>([]);
@@ -53,7 +54,7 @@ export default function UpdatesPage() {
                                     </span>
                                     <div className="flex items-center text-xs text-text-secondary">
                                         <Clock className="w-3.5 h-3.5 mr-1.5" />
-                                        {update.date}
+                                        {formatDateOnly(update.date)}
                                     </div>
                                 </div>
 
